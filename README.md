@@ -1,2 +1,1 @@
-# ascon_dom
-DOM Protected hardware Implementations of Ascon variants
+# DOM Protected Hardware Implementations of Ascon
