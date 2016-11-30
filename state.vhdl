@@ -6,7 +6,7 @@
 -- Author     : Hannes Gross
 -- Company    : Graz University of Technology
 -- Created    : 2016-11-18
--- Last update: 2016-11-29
+-- Last update: 2016-11-30
 -- Platform   : 
 -- Standard   : VHDL'93/02
 -------------------------------------------------------------------------------
@@ -32,7 +32,7 @@ entity state is
     KEY_SIZE        : integer := 128;    -- only 128 supported so far
     ROUNDS_A        : integer := 12;     -- 12 is default
     ROUNDS_B        : integer := 6;      -- 6 for Ascon128, 8 for Ascon128a
-    SBOX_INSTANCES  : integer := 64;      -- Parallel Sboxes = 1,2,4,8,16,32,64
+    SBOX_INSTANCES  : integer := 64;     -- Parallel Sboxes = 1,2,4,8,16,32,64
     IMPLICIT_AFFINE : string  := "yes";  -- Sbox affine transform. shall be
                                          -- done during round const addition?
     PIPELINED       : string  := "yes"   -- "yes", or "no"
@@ -154,8 +154,6 @@ begin  -- architecture str
           StateFSMxDN <= IDLE;
         end if;
         StateBusyxSO <= '0';            -- ready for next input
-        
-      when others => null;
     end case;  -- State transitions
   end process state_fsm_p;
 
@@ -168,7 +166,7 @@ begin  -- architecture str
                                     X2xDP, X3SboxOutxD, X3xDP, X4SboxOutxD,
                                     X4xDP, FSMxDI, isFirstRoundOfTransformxSI,
                                     addedDomainSeparationxSI, DataxDI,
-                                    addedKeyAtInitxSI) is
+                                    addedKeyAtInitxSI,isEncryptionxSI) is
     -- For more complex state transfroamtion these variables are used
     variable X0, X1, X2, X3, X4 : t_shared_state_var(D downto 0);
   begin  -- process state_transfromations_p
@@ -308,8 +306,6 @@ begin  -- architecture str
           X2xDN(i) <= X2xDP(i) xor ROTATE_STATE_WORD(X2xDP(i), 1) xor ROTATE_STATE_WORD(X2xDP(i), 6);
           X3xDN(i) <= X3xDP(i) xor ROTATE_STATE_WORD(X3xDP(i), 10) xor ROTATE_STATE_WORD(X3xDP(i), 17);
           X4xDN(i) <= X4xDP(i) xor ROTATE_STATE_WORD(X4xDP(i), 7) xor ROTATE_STATE_WORD(X4xDP(i), 41);
-          
-        when others => null;
       end case;  -- State transitions
 
 

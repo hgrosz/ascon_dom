@@ -6,7 +6,7 @@
 -- Author     : Hannes Gross
 -- Company    : Graz University of Technology
 -- Created    : 2016-11-24
--- Last update: 2016-11-29
+-- Last update: 2016-11-30
 -- Platform   : 
 -- Standard   : VHDL'93/02
 -------------------------------------------------------------------------------
@@ -162,8 +162,10 @@ begin  -- architecture str
   -----------------------------------------------------------------------------
   ascon_fsm_p : process (AssociatedDataRDYxSI, FSMxDP, FinalizexSI,
                          PTCTDataRDYxSI, RoundCounter, StartDecryptionxSI,
-                         StartEncryptionxSI, TagReceivedxSI, isEncryptionxSP,
-                         doIncrementRoundCounterxS, StateBusyxS, doCountxS) is
+                         StartEncryptionxSI, StateBusyxS, TagReceivedxSI,
+                         addedDomainSeparationxSP, addedKeyAtInitxSP,
+                         doIncrementRoundCounterxS, isEncryptionxSP,
+                         isFirstRoundOfTransformxS) is
   begin  -- process ascon_fsm_p
     -- Register defaults --> previous state
     FSMxDN                   <= FSMxDP;  

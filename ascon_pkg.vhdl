@@ -6,7 +6,7 @@
 -- Author     : Hannes Gross
 -- Company    : Graz University of Technology
 -- Created    : 2016-11-17
--- Last update: 2016-11-29
+-- Last update: 2016-11-30
 -- Platform   : 
 -- Standard   : VHDL'93/02
 -------------------------------------------------------------------------------
