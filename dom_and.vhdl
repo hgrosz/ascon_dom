@@ -6,7 +6,7 @@
 -- Author     : Hannes Gross
 -- Company    : Graz University of Technology
 -- Created    : 2016-11-17
--- Last update: 2016-11-30
+-- Last update: 2017-01-24
 -- Platform   : 
 -- Standard   : VHDL'93/02
 -------------------------------------------------------------------------------
@@ -40,7 +40,7 @@ entity dom_and is
     XxDI   : in  t_shared_bit(D downto 0);
     YxDI   : in  t_shared_bit(D downto 0);
     -- Fresh masks
-    ZxDI   : in  t_shared_bit(NUM_MASKS(D)-1 downto 0);
+    ZxDI   : in  t_shared_bit(NUM_MASKS -1 downto 0);
     -- Output Q = X*Y (masked)
     QxDO   : out t_shared_bit(D downto 0)
     );

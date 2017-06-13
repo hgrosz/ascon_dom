@@ -1,1 +1,1 @@
-# DOM Protected Hardware Implementations of Ascon
+# DOM and UMA Protected Hardware Implementations of Ascon

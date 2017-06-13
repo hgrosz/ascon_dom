@@ -6,7 +6,7 @@
 -- Author     : Hannes Gross
 -- Company    : Graz University of Technology
 -- Created    : 2016-11-18
--- Last update: 2016-11-30
+-- Last update: 2016-12-21
 -- Platform   : 
 -- Standard   : VHDL'93/02
 -------------------------------------------------------------------------------
@@ -68,6 +68,28 @@ entity state is
     StateBusyxSO               : out std_logic
     );
 
+  -----------------------------------------------------------------------------
+  -- Helper functions
+  -----------------------------------------------------------------------------
+  function SBOX_COUNTER_MAX
+    return integer is
+  begin
+    if SBOX_VARIANT = "DOM" then
+      -- DOM cycle calculations
+      if IMPLICIT_AFFINE = "yes" then
+        return 64/SBOX_INSTANCES;
+      else
+        return (64/SBOX_INSTANCES) + 1;
+      end if;
+    -- LOW_RANDOMNESS Sbox variant  
+    else
+      if IMPLICIT_AFFINE = "yes" then
+        return NUM_PIPELINE_REGS(1) + (64/SBOX_INSTANCES) -1;
+      else
+        return NUM_PIPELINE_REGS(1) + (64/SBOX_INSTANCES);
+      end if;
+    end if;
+  end function;
 end entity state;
 
 -------------------------------------------------------------------------------
@@ -138,8 +160,7 @@ begin  -- architecture str
       -- *** SBOX_LAYER ***
       when SBOX_LAYER =>
         -- Implicite affine calculation saves one cycle
-        if ((IMPLICIT_AFFINE = "yes")and SboxCounterxD >= (64/SBOX_INSTANCES)) or
-           ((IMPLICIT_AFFINE = "no") and SboxCounterxD >= (64/SBOX_INSTANCES) + 1)then
+        if SboxCounterxD >= SBOX_COUNTER_MAX then
           StateFSMxDN  <= LINEAR_LAYER;
           StateBusyxSO <= '0';          -- ready for next input
         end if;
@@ -352,8 +373,7 @@ begin  -- architecture str
     generated_sbox: entity work.sbox
       generic map (
         SKIP_AFFINE => IMPLICIT_AFFINE,
-        PIPELINED   => PIPELINED,
-        D           => D)
+        PIPELINED   => PIPELINED)
       port map (
         ClkxCI => ClkxCI,
         RstxBI => RstxBI,
